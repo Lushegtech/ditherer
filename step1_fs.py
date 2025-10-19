@@ -1,5 +1,5 @@
 from PIL import Image
-import argparse # handles command line arguments
+import argparse
 
 PALETTE = [(0, 0, 0), (255, 255, 255)]
 
@@ -59,23 +59,24 @@ def floyd_steinberg_b_w(image):
                         clamp255(blue_error_frac),
                     ] 
 
-            give_frac(x + 1, y, 7/16)
-            give_frac(x - 1, y + 1, 3/16)
-            give_frac(x,     y + 1, 5/16)
-            give_frac(x + 1, y + 1, 1/16)
+            give_frac(x+1, y, 7/16)
+            give_frac(x-1, y + 1, 3/16)
+            give_frac(x, y+1, 5/16)
+            give_frac(x+1, y+1, 1/16)
 
     return output
 
 def main():
     ap = argparse.ArgumentParser(description="Black and White Floyd–Steinberg dither")
-    ap.add_argument("input", help="e.g. examples/gradient.png")
-    ap.add_argument("output", help="e.g. out_bw.png")
+    ap.add_argument("input", help="examples/gradient.png")
+    ap.add_argument("output", help="out_bw.png")
     args = ap.parse_args()
 
-    image = Image.open(args.input)
-    output = floyd_steinberg_b_w(image)
-    output.save(args.output)
-    print(f"saved -> {args.output}")
+    img = Image.open(args.input)
+    out = floyd_steinberg_b_w(img)
+    out.save(args.output)
+    
+    print(f"The dithered image was saved as {args.output}")
 
 if __name__ == "__main__":
     main()
