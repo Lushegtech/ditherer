@@ -1,8 +1,6 @@
-from typing import List, Tuple, Any
+from PIL import Image
 
-from PIL.Image import Image as PILImage
-
-def brace_to_255(rgb_value):
+def brace_to_255(rgb_value: int) -> int:
 
     if rgb_value < 0:
         return 0
@@ -10,7 +8,10 @@ def brace_to_255(rgb_value):
         return 255
     return rgb_value
 
-def find_nearest_color(pixel, palette):
+def find_nearest_color(
+        pixel: tuple[int, int, int], 
+        palette: list[tuple[int, int, int]]
+) -> tuple[int, int, int]:
 
     red, green, blue = pixel
 
@@ -37,7 +38,7 @@ def find_nearest_color(pixel, palette):
 #quantization
 #error diffusion
 
-def floyd_steinberg_dithering_algo(image, palette):
+def floyd_steinberg_dithering_algo(image: Image.Image, palette: list[tuple[int, int, int]]) -> Image.Image:
 
     image = image.convert('RGB')
 
@@ -134,4 +135,35 @@ def floyd_steinberg_dithering_algo(image, palette):
                         e_blue * 1/16
                         )
     return output_img
+
+PALETTES: dict[str, list[tuple[int, int, int]]] = {
+    "bw": [
+        (0, 0, 0),
+        (255, 255, 255)
+    ],
+
+    "gameboy": [
+        (15, 56, 15),
+        (48, 98, 48),
+        (139, 172, 15),
+        (155, 188, 15)
+    ],
+
+    "cga": [
+        (0, 0, 0),
+        (85, 85, 85),
+        (170, 170, 170),
+        (255, 255, 255)
+    ],
+    "retro": [
+        (0, 0, 0),
+        (255, 0, 0),
+        (0, 255, 0),
+        (0, 0, 255),
+        (255, 255, 0),
+        (255, 0, 255),
+        (0, 255, 255),
+        (255, 255, 255)
+    ],
+}
 
